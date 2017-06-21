@@ -114,6 +114,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
+    AppUtils.setStatusBarColor(this, android.R.color.transparent);
     AppUtils.setContentBehindStatusBar(this);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.sig_activity_chatroom);
@@ -135,7 +136,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     initData(getIntent());
     initUIConfig();
     initToolbar();
-    setStatusBarColor();
+//    setStatusBarColor();
     initRecyclerView();
     initControlView();
     initEmojiKeyboard();
@@ -400,7 +401,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
         .toolbarColor(uiConfig.getChatRoomStatusBarBackgroundColor())
         .statusBarColor(uiConfig.getChatRoomStatusBarBackgroundColor())
         .selectedBorderColor(uiConfig.getChatRoomStatusBarBackgroundColor())
-        .pickSinglePhotoFromAlbum()
+        .pickSinglePhoto()
         .subscribe(
           uri -> {
             addImageMessage(uri);
