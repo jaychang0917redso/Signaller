@@ -137,6 +137,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     initUIConfig();
     initToolbar();
 //    setStatusBarColor();
+
     initRecyclerView();
     initControlView();
     initEmojiKeyboard();
