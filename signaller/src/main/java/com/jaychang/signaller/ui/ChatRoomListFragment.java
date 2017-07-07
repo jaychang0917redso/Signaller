@@ -38,10 +38,6 @@ import butterknife.ButterKnife;
 
 public class ChatRoomListFragment extends RxFragment {
 
-  public interface OnReceiverLogoClickListener {
-    void onReceiverLogoClicked(SignallerReceiver receiver);
-  }
-
   public interface OnChatRoomListUpdateListener{
     void onChatRoomListUpdated();
   }
@@ -52,7 +48,6 @@ public class ChatRoomListFragment extends RxFragment {
   private static final int OFF_SCREEN_CELLS_THRESHOLD = 24;
   private ChatRoomCellProvider chatRoomCellProvider;
   private HashMap<String, SignallerChatRoom> chatRooms = new HashMap<>();
-  private OnReceiverLogoClickListener onReceiverLogoClickListener;
   private OnChatRoomListUpdateListener onChatRoomListUpdateListener;
 
   public static ChatRoomListFragment newInstance() {
@@ -220,13 +215,6 @@ public class ChatRoomListFragment extends RxFragment {
         public void onCellClicked(SignallerChatRoom chatroom) {
           chatWith(chatroom.getReceiver());
         }
-
-        @Override
-        public void onReceiverLogoClicked(SignallerReceiver receiver) {
-          if (onReceiverLogoClickListener != null) {
-            onReceiverLogoClickListener.onReceiverLogoClicked(receiver);
-          }
-        }
       });
       recyclerView.addCell(cell);
     }
@@ -235,10 +223,6 @@ public class ChatRoomListFragment extends RxFragment {
 
   private void chatWith(SignallerReceiver receiver) {
     Signaller.getInstance().chatWith(getContext(), receiver.getUserId(), receiver.getName());
-  }
-
-  public void setOnReceiverLogoClickListener(OnReceiverLogoClickListener onReceiverLogoClickListener) {
-    this.onReceiverLogoClickListener = onReceiverLogoClickListener;
   }
 
   public void setOnChatRoomListUpdateListener(OnChatRoomListUpdateListener onChatRoomListUpdateListener) {

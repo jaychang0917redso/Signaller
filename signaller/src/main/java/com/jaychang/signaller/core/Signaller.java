@@ -102,7 +102,7 @@ public final class Signaller {
       ownUserId + "_" + userId :
       userId + "_" + ownUserId;
 
-    SocketManager.getInstance().join(ownUserId, chatRoomId, new ChatRoomJoinCallback() {
+    SocketManager.getInstance().join(userId, chatRoomId, new ChatRoomJoinCallback() {
       @Override
       public void onChatRoomJoined(String chatRoomId, String userId) {
         ChatRoomActivity.start(context, chatRoomId, userId, toolbarTitle);
