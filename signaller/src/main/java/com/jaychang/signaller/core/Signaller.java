@@ -135,7 +135,7 @@ public final class Signaller {
   }
 
   public void getUnreadMessageCount(ChatRoomMetaCallback callback) {
-    SignallerDataManager.getInstance().getChatRoomsFromNetwork(null)
+    SignallerDataManager.getInstance().getUnreadMsgCount()
       .subscribe(
         rooms -> {
           callback.onChatRoomMetaReady(ChatRoomMeta.getInstance());
