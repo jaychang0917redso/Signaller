@@ -42,6 +42,10 @@ public class ChatRoomListFragment extends RxFragment {
     void onReceiverLogoClicked(SignallerReceiver receiver);
   }
 
+  public interface OnChatRoomListUpdateListener{
+    void onChatRoomListUpdated();
+  }
+
   @BindView(R2.id.recyclerView)
   NRecyclerView recyclerView;
 
@@ -49,6 +53,7 @@ public class ChatRoomListFragment extends RxFragment {
   private ChatRoomCellProvider chatRoomCellProvider;
   private HashMap<String, SignallerChatRoom> chatRooms = new HashMap<>();
   private OnReceiverLogoClickListener onReceiverLogoClickListener;
+  private OnChatRoomListUpdateListener onChatRoomListUpdateListener;
 
   public static ChatRoomListFragment newInstance() {
     return new ChatRoomListFragment();
@@ -86,6 +91,9 @@ public class ChatRoomListFragment extends RxFragment {
     EventBus.getDefault().removeStickyEvent(event);
     SignallerChatRoom chatRoom = SignallerDbManager.getInstance().getChatRoom(event.chatRoomId);
     insertOrUpdateChatRoom(chatRoom);
+    if (onChatRoomListUpdateListener != null) {
+      onChatRoomListUpdateListener.onChatRoomListUpdated();
+    }
   }
 
   public void init() {
@@ -221,6 +229,10 @@ public class ChatRoomListFragment extends RxFragment {
 
   public void setOnReceiverLogoClickListener(OnReceiverLogoClickListener onReceiverLogoClickListener) {
     this.onReceiverLogoClickListener = onReceiverLogoClickListener;
+  }
+
+  public void setOnChatRoomListUpdateListener(OnChatRoomListUpdateListener onChatRoomListUpdateListener) {
+    this.onChatRoomListUpdateListener = onChatRoomListUpdateListener;
   }
 
 }
