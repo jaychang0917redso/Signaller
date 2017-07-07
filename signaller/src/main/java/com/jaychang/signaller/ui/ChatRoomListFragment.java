@@ -86,14 +86,24 @@ public class ChatRoomListFragment extends RxFragment {
     EventBus.getDefault().unregister(this);
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    onChatRoomListUpdated();
+  }
+
+  private void onChatRoomListUpdated() {
+    if (onChatRoomListUpdateListener != null) {
+      onChatRoomListUpdateListener.onChatRoomListUpdated();
+    }
+  }
+
   @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
   public void updateChatRoomList(SignallerEvents.UpdateChatRoomListEvent event) {
     EventBus.getDefault().removeStickyEvent(event);
     SignallerChatRoom chatRoom = SignallerDbManager.getInstance().getChatRoom(event.chatRoomId);
     insertOrUpdateChatRoom(chatRoom);
-    if (onChatRoomListUpdateListener != null) {
-      onChatRoomListUpdateListener.onChatRoomListUpdated();
-    }
+    onChatRoomListUpdated();
   }
 
   public void init() {
