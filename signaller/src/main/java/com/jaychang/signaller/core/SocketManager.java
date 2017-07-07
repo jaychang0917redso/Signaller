@@ -7,7 +7,6 @@ import com.jaychang.signaller.core.model.PushNotification;
 import com.jaychang.signaller.core.model.SignallerChatMessage;
 import com.jaychang.signaller.core.model.SignallerPayload;
 import com.jaychang.signaller.core.model.SignallerSocketChatMessage;
-import com.jaychang.signaller.core.push.SignallerPushNotificationManager;
 import com.jaychang.signaller.util.GsonUtils;
 import com.jaychang.signaller.util.LogUtils;
 
@@ -261,12 +260,12 @@ public class SocketManager {
       if (isInSameChatRoom) {
         EventBus.getDefault().postSticky(new SignallerEvents.OnMsgReceivedEvent(chatRoomId, msgId));
       } else {
-        SignallerPushNotificationManager.showNotification(pushNotification);
+//        SignallerPushNotificationManager.showNotification(pushNotification);
       }
       EventBus.getDefault().postSticky(new SignallerEvents.UpdateChatRoomListEvent(chatRoomId));
     } else {
       EventBus.getDefault().postSticky(new SignallerEvents.UpdateChatRoomListEvent(chatRoomId));
-      SignallerPushNotificationManager.showNotification(pushNotification);
+//      SignallerPushNotificationManager.showNotification(pushNotification);
     }
   }
 
