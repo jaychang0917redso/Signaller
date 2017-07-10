@@ -158,7 +158,7 @@ public class SocketManager {
   void join(String userId, String chatRoomId, ChatRoomJoinCallback callback) {
     try {
       JSONObject object = new JSONObject();
-      object.put("user_id", userId);
+      object.put("user_id", UserData.getInstance().getUserId());
       object.put("room_id", chatRoomId);
       socket.emit(JOIN, object, (Ack) args -> {
         LogUtils.d("onJoined");
