@@ -33,6 +33,10 @@ public abstract class ChatRoomCell extends BaseCell{
     chatRoom.increaseUnreadCount();
   }
 
+  public void resetUnreadCount() {
+    chatRoom.resetUnreadCount();
+  }
+
   public void setCallback(Callback callback) {
     this.callback = callback;
   }

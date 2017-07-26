@@ -24,9 +24,15 @@ public class SignallerEvents {
 
   public static class UpdateChatRoomListEvent {
     public String chatRoomId;
+    public boolean needResetUnreadCount;
 
     public UpdateChatRoomListEvent(String chatRoomId) {
+      this(chatRoomId, false);
+    }
+
+    public UpdateChatRoomListEvent(String chatRoomId, boolean needResetUnreadCount) {
       this.chatRoomId = chatRoomId;
+      this.needResetUnreadCount = needResetUnreadCount;
     }
   }
 

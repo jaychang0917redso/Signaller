@@ -99,6 +99,10 @@ public class SignallerChatRoom extends RealmObject {
   public void setReceiver(SignallerReceiver receiver) {
     this.receiver = receiver;
   }
+
+  public void resetUnreadCount() {
+    this.unreadCount = 0;
+  }
   //endregion
 
 }

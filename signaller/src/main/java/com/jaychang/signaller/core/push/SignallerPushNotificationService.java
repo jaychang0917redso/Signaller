@@ -34,7 +34,7 @@ public class SignallerPushNotificationService extends GcmListenerService {
       EventBus.getDefault().postSticky(new SignallerEvents.OnMsgReceivedEvent(chatRoomId, pushNotification.getMsgId()));
     }
 
-    EventBus.getDefault().postSticky(new SignallerEvents.UpdateChatRoomListEvent(chatRoomId));
+    EventBus.getDefault().postSticky(new SignallerEvents.UpdateChatRoomListEvent(chatRoomId, true));
   }
 
 }

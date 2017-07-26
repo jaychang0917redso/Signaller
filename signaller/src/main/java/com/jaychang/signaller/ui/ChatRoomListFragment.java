@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 
 public class ChatRoomListFragment extends RxFragment {
 
-  public interface OnChatRoomListUpdateListener{
+  public interface OnChatRoomListUpdateListener {
     void onChatRoomListUpdated();
   }
 
@@ -171,7 +171,7 @@ public class ChatRoomListFragment extends RxFragment {
     return rooms;
   }
 
-  private void insertOrUpdateChatRoom(SignallerChatRoom room) {
+  private void insertOrUpdateChatRoom(SignallerChatRoom room, boolean needResetUnreadCount) {
     // if has no this chat room, call api to update
     if (room == null) {
       ChatRoomMeta.getInstance().setCursor(null);
@@ -185,7 +185,11 @@ public class ChatRoomListFragment extends RxFragment {
 
       if (chatRoom.getChatRoomId().equals(room.getChatRoomId())) {
         if (!room.getLastMessage().isOwnMessage()) {
-          chatRoomCell.increaseUnreadCount();
+          if (needResetUnreadCount) {
+            chatRoomCell.resetUnreadCount();
+          } else {
+            chatRoomCell.increaseUnreadCount();
+          }
         }
 
         chatRoomCell.updateLastMessage(room.getLastMessage());

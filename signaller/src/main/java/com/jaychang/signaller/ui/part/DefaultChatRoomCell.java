@@ -36,7 +36,7 @@ public class DefaultChatRoomCell extends ChatRoomCell {
     if (callback != null) {
       viewHolder.itemView.setOnClickListener(v -> {
         callback.onCellClicked(chatRoom);
-        chatRoom.setUnreadCount(0);
+        chatRoom.resetUnreadCount();
         viewHolder.unreadCountView.setVisibility(View.GONE);
       });
     }

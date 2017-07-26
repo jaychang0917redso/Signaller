@@ -25,9 +25,6 @@ public class ChatRoomsFragment extends Fragment implements BottomTabManager.OnTa
 
   public void init() {
     ChatRoomListFragment fragment = ChatRoomListFragment.newInstance();
-    fragment.setOnReceiverLogoClickListener(receiver -> {
-      System.out.println("receiver:" + receiver.getName());
-    });
     getChildFragmentManager().beginTransaction()
       .replace(R.id.chatRoomListFragment, fragment)
       .commitNow();
