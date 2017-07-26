@@ -29,6 +29,6 @@ public interface SignallerApi {
   Observable<SignallerImage> uploadPhoto(@Part MultipartBody.Part file);
 
   @GET("api/chatrooms/{room_id}/count")
-  Observable<Void> resetUnreadCount(@Query("room_id") String roomId);
+  Observable<Void> resetUnreadCount(@Path("room_id") String roomId);
 
 }
