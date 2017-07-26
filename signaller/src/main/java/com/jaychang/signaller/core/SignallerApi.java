@@ -30,6 +30,7 @@ public interface SignallerApi {
   Observable<SignallerImage> uploadPhoto(@Part MultipartBody.Part file);
 
   @PUT("api/chatrooms/{room_id}/count")
-  Observable<Void> resetUnreadCount(@Path("room_id") String roomId, @Query("unread_count") int unreadCount);
+  Observable<Void> resetUnreadCount(@Path("room_id") String roomId,
+                                    @Query("unread_count") int unreadCount);
 
 }

@@ -55,7 +55,7 @@ public class SignallerDataManager {
   }
 
   public Observable<Void> resetUnreadCount(String roomId) {
-    return api.resetUnreadCount(roomId)
+    return api.resetUnreadCount(roomId, 0)
       .compose(new SchedulerTransformer<>());
   }
 
