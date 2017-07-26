@@ -54,6 +54,11 @@ public class SignallerDataManager {
       .compose(new SchedulerTransformer<>());
   }
 
+  public Observable<Void> resetUnreadCount(String roomId) {
+    return api.resetUnreadCount(roomId)
+      .compose(new SchedulerTransformer<>());
+  }
+
   public Observable<ChatMessageResponse> getChatMessages(String userId, String cursor) {
     return api.getChatMessages(userId, cursor, 24)
       .compose(new SchedulerTransformer<>())

@@ -121,6 +121,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     ButterKnife.bind(this);
     init();
     loadChatMessages();
+    resetUnreadCount(chatRoomId);
   }
 
   @Override
@@ -130,6 +131,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     toolbarHolder.removeAllViews();
     initToolbar();
     reload();
+    resetUnreadCount(chatRoomId);
   }
 
   public void init() {
@@ -339,6 +341,11 @@ public class ChatRoomActivity extends RxAppCompatActivity {
         },
         error -> {
         });
+  }
+
+  private void resetUnreadCount(String chatRoomId) {
+    SignallerDataManager.getInstance().resetUnreadCount(chatRoomId)
+      .subscribe();
   }
 
   private void bindChatMessages(List<SignallerChatMessage> chatMessages) {
