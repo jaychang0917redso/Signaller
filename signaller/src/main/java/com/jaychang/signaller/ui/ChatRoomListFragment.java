@@ -97,7 +97,7 @@ public class ChatRoomListFragment extends RxFragment {
   public void updateChatRoomList(SignallerEvents.UpdateChatRoomListEvent event) {
     EventBus.getDefault().removeStickyEvent(event);
     SignallerChatRoom chatRoom = SignallerDbManager.getInstance().getChatRoom(event.chatRoomId);
-    insertOrUpdateChatRoom(chatRoom);
+    insertOrUpdateChatRoom(chatRoom, event.needResetUnreadCount);
     onChatRoomListUpdated();
   }
 
