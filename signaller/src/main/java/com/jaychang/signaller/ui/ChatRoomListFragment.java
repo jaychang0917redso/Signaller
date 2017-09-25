@@ -42,6 +42,11 @@ public class ChatRoomListFragment extends RxFragment {
     void onChatRoomListUpdated();
   }
 
+  public interface OnChatRoomJoinListener {
+    void onChatRoomJoinStarted();
+    void onChatRoomJoinEnded();
+  }
+
   @BindView(R2.id.recyclerView)
   NRecyclerView recyclerView;
 
@@ -49,6 +54,7 @@ public class ChatRoomListFragment extends RxFragment {
   private ChatRoomCellProvider chatRoomCellProvider;
   private HashMap<String, SignallerChatRoom> chatRooms = new HashMap<>();
   private OnChatRoomListUpdateListener onChatRoomListUpdateListener;
+  private OnChatRoomJoinListener onChatRoomJoinListener;
 
   public static ChatRoomListFragment newInstance() {
     return new ChatRoomListFragment();
@@ -226,11 +232,25 @@ public class ChatRoomListFragment extends RxFragment {
   }
 
   private void chatWith(SignallerReceiver receiver) {
-    Signaller.getInstance().chatWith(getContext(), receiver.getUserId(), receiver.getName());
+    if (onChatRoomJoinListener != null) {
+      onChatRoomJoinListener.onChatRoomJoinStarted();
+    }
+    Signaller.getInstance().chatWith(getContext(), receiver.getUserId(), receiver.getName(), new Runnable() {
+      @Override
+      public void run() {
+        if (onChatRoomJoinListener != null) {
+          onChatRoomJoinListener.onChatRoomJoinEnded();
+        }
+      }
+    });
   }
 
   public void setOnChatRoomListUpdateListener(OnChatRoomListUpdateListener onChatRoomListUpdateListener) {
     this.onChatRoomListUpdateListener = onChatRoomListUpdateListener;
+  }
+
+  public void setOnChatRoomJoinListener(OnChatRoomJoinListener onChatRoomJoinListener) {
+    this.onChatRoomJoinListener = onChatRoomJoinListener;
   }
 
 }
