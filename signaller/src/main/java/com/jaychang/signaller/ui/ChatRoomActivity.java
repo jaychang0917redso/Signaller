@@ -146,6 +146,13 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     monitorNetworkState();
     monitorInput();
     cancelNotificationIfNeed();
+    clearEvents();
+  }
+
+  // in init state, clear events (OnMsgReceivedEvent, OnMsgSentEvent) to
+  // prevent duplicate calls like loadChatMessages().
+  private void clearEvents() {
+    EventBus.getDefault().removeStickyEvent(SignallerEvents.OnMsgReceivedEvent.class);
   }
 
   private void initUIConfig() {
