@@ -11,19 +11,22 @@ public final class AppConfig {
   private String socketUrl;
   private String pushNotificationSenderId;
   private Class<?> pushNotificationParentStack;
+  private String officialAccountId;
 
   public AppConfig(@StringRes int appName,
                    @DrawableRes int appIcon,
                    String serverDomain,
                    String socketUrl,
                    String pushNotificationSenderId,
-                   Class<?> pushNotificationParentStack) {
+                   Class<?> pushNotificationParentStack,
+                   String officialAccountId) {
     this.appName = appName;
     this.appIcon = appIcon;
     this.serverDomain = serverDomain;
     this.socketUrl = socketUrl;
     this.pushNotificationSenderId = pushNotificationSenderId;
     this.pushNotificationParentStack = pushNotificationParentStack;
+    this.officialAccountId = officialAccountId;
   }
 
   public int getAppName() {
@@ -50,4 +53,7 @@ public final class AppConfig {
     return pushNotificationParentStack;
   }
 
+  public String getOfficialAccountId() {
+    return officialAccountId == null ? "" : officialAccountId;
+  }
 }

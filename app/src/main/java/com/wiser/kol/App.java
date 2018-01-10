@@ -135,7 +135,8 @@ public class App extends MultiDexApplication {
       Constant.SERVER_DOMAIN,
       Constant.SOCKET_URL,
       Constant.PUSH_SENDER_ID,
-      MainActivity.class);
+      MainActivity.class,
+      "official ac id here");
 
     Signaller.init(this, appConfig, uiConfig);
 

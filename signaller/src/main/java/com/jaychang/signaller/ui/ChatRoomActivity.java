@@ -103,6 +103,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
   private DateSeparatorViewProvider dateSeparatorViewProvider;
   private boolean isShowChatMessageDateSeparator;
   private UIConfig uiConfig;
+  private boolean isInputEnabled = true;
 
   public static void start(Context context, String chatRoomId, String userId, String username) {
     Intent intent = new Intent(context, ChatRoomActivity.class);
@@ -169,6 +170,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     chatRoomId = intent.getStringExtra(EXTRA_CHAT_ROOM_ID);
     userId = intent.getStringExtra(EXTRA_USER_ID);
     title = intent.getStringExtra(EXTRA_TITLE);
+    isInputEnabled = false;
 
     UserData.getInstance().setCurrentChatRoomId(chatRoomId);
   }
@@ -226,6 +228,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     });
 
     controlViewHolder.addView(controlView);
+    controlViewHolder.setVisibility(isInputEnabled ? View.VISIBLE : View.GONE);
   }
 
   private void initEmojiKeyboard() {
