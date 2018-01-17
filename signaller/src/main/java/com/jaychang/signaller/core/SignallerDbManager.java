@@ -21,13 +21,15 @@ import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
+import io.realm.RealmObjectSchema;
 import io.realm.RealmResults;
+import io.realm.RealmSchema;
 import io.realm.Sort;
 import rx.Observable;
 
 public class SignallerDbManager {
 
-  private static final int DB_VERSION = 1;
+  private static final int DB_VERSION = 2;
   private static final SignallerDbManager INSTANCE = new SignallerDbManager();
 
   private RealmConfiguration realmConfig;
@@ -45,7 +47,12 @@ public class SignallerDbManager {
     RealmMigration migration = new RealmMigration() {
       @Override
       public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-
+        RealmSchema schema = realm.getSchema();
+        if (newVersion == 1) {
+          RealmObjectSchema receiverSchema = schema.get(SignallerReceiver.class.getSimpleName());
+          receiverSchema.addField("profilePicUrl", String.class);
+          oldVersion++;
+        }
       }
     };
 
