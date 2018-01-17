@@ -48,7 +48,7 @@ public class SignallerDbManager {
       @Override
       public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
-        if (newVersion == 1) {
+        if (oldVersion == 1) {
           RealmObjectSchema receiverSchema = schema.get(SignallerReceiver.class.getSimpleName());
           String newField = "profilePicUrl";
           if (!receiverSchema.hasField(newField)) {
