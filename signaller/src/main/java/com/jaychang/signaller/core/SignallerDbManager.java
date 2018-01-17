@@ -50,7 +50,10 @@ public class SignallerDbManager {
         RealmSchema schema = realm.getSchema();
         if (newVersion == 1) {
           RealmObjectSchema receiverSchema = schema.get(SignallerReceiver.class.getSimpleName());
-          receiverSchema.addField("profilePicUrl", String.class);
+          String newField = "profilePicUrl";
+          if (!receiverSchema.hasField(newField)) {
+            receiverSchema.addField(newField, String.class);
+          }
           oldVersion++;
         }
       }
