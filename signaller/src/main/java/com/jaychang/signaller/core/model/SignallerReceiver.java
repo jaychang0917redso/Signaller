@@ -1,5 +1,7 @@
 package com.jaychang.signaller.core.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
@@ -16,6 +18,8 @@ public class SignallerReceiver extends RealmObject {
   private String userType;
   @SerializedName("profile_photo")
   private SignallerProfilePhoto profilePhoto;
+  @SerializedName("profile_pic_url")
+  private String profilePicUrl;
   @SerializedName("mtime")
   private long mtime;
   @SerializedName("name")
@@ -35,7 +39,7 @@ public class SignallerReceiver extends RealmObject {
   }
 
   public String getProfilePhotoUrl() {
-    return profilePhoto == null ? "" : profilePhoto.getUrl();
+    return profilePhoto == null ? TextUtils.isEmpty(profilePicUrl) ? "" : profilePicUrl : profilePhoto.getUrl();
   }
 
   public void setProfilePhotoUrl(String url) {
