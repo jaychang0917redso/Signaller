@@ -359,6 +359,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
   }
 
   private void bindChatMessages(List<SignallerChatMessage> chatMessages) {
+    Collections.sort(chatMessages, (s1, s2) -> (int)(s2.getMsgTime() - s1.getMsgTime()));
     List<SignallerChatMessage> reversedMessages = new ArrayList<>(chatMessages);
     Collections.reverse(reversedMessages);
 
