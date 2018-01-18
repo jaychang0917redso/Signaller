@@ -3,6 +3,9 @@ package com.jaychang.signaller.core;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class AppConfig {
 
   private int appName;
@@ -11,7 +14,7 @@ public final class AppConfig {
   private String socketUrl;
   private String pushNotificationSenderId;
   private Class<?> pushNotificationParentStack;
-  private String officialAccountId;
+  private List<String> officialAccountIds;
 
   public AppConfig(@StringRes int appName,
                    @DrawableRes int appIcon,
@@ -19,14 +22,14 @@ public final class AppConfig {
                    String socketUrl,
                    String pushNotificationSenderId,
                    Class<?> pushNotificationParentStack,
-                   String officialAccountId) {
+                   List<String> officialAccountIds) {
     this.appName = appName;
     this.appIcon = appIcon;
     this.serverDomain = serverDomain;
     this.socketUrl = socketUrl;
     this.pushNotificationSenderId = pushNotificationSenderId;
     this.pushNotificationParentStack = pushNotificationParentStack;
-    this.officialAccountId = officialAccountId;
+    this.officialAccountIds = new ArrayList<>(officialAccountIds);
   }
 
   public int getAppName() {
@@ -53,7 +56,7 @@ public final class AppConfig {
     return pushNotificationParentStack;
   }
 
-  public String getOfficialAccountId() {
-    return officialAccountId == null ? "" : officialAccountId;
+  public List<String> getOfficialAccountIds() {
+    return officialAccountIds;
   }
 }

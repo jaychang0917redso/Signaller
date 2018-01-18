@@ -170,7 +170,7 @@ public class ChatRoomActivity extends RxAppCompatActivity {
     chatRoomId = intent.getStringExtra(EXTRA_CHAT_ROOM_ID);
     userId = intent.getStringExtra(EXTRA_USER_ID);
     title = intent.getStringExtra(EXTRA_TITLE);
-    isInputEnabled = !Signaller.getInstance().getAppConfig().getOfficialAccountId().equals(userId);
+    isInputEnabled = !Signaller.getInstance().getAppConfig().getOfficialAccountIds().contains(userId);
 
     UserData.getInstance().setCurrentChatRoomId(chatRoomId);
   }
