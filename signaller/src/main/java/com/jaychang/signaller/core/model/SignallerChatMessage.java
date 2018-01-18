@@ -29,6 +29,8 @@ public class SignallerChatMessage extends RealmObject {
   private String type;
   @SerializedName("sender")
   private SignallerSender sender;
+  @SerializedName("content_multilang")
+  private MultilingualData contentMultiLang;
   private boolean isSent = true;
   private long timestamp;
 
@@ -149,7 +151,10 @@ public class SignallerChatMessage extends RealmObject {
   public void setTimestamp(long timestamp) {
     this.timestamp = timestamp;
   }
-  //endregion
 
+  public MultilingualData getContentMultiLang() {
+    return contentMultiLang;
+  }
+  //endregion
 }
 

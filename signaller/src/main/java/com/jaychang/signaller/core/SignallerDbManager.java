@@ -2,6 +2,7 @@ package com.jaychang.signaller.core;
 
 import android.content.Context;
 
+import com.jaychang.signaller.core.model.MultilingualData;
 import com.jaychang.signaller.core.model.SignallerChatMessage;
 import com.jaychang.signaller.core.model.SignallerChatRoom;
 import com.jaychang.signaller.core.model.SignallerChatRoomInfo;
@@ -50,10 +51,21 @@ public class SignallerDbManager {
         RealmSchema schema = realm.getSchema();
         if (oldVersion == 1) {
           RealmObjectSchema receiverSchema = schema.get(SignallerReceiver.class.getSimpleName());
-          String newField = "profilePicUrl";
-          if (!receiverSchema.hasField(newField)) {
-            receiverSchema.addField(newField, String.class);
+          String profilePicUrlField = "profilePicUrl";
+          if (!receiverSchema.hasField(profilePicUrlField)) {
+            receiverSchema.addField(profilePicUrlField, String.class);
           }
+
+          schema.create(MultilingualData.class.getSimpleName())
+            .addField("en", String.class)
+            .addField("zh", String.class);
+
+          RealmObjectSchema chatMsgSchema = schema.get(SignallerChatMessage.class.getSimpleName());
+          String contentMultiLangField = "contentMultiLang";
+          if (!chatMsgSchema.hasField(contentMultiLangField)) {
+            chatMsgSchema.addField(contentMultiLangField, MultilingualData.class);
+          }
+
           oldVersion++;
         }
       }
