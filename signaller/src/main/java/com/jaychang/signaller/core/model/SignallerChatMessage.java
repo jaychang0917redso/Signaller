@@ -31,6 +31,8 @@ public class SignallerChatMessage extends RealmObject {
   private SignallerSender sender;
   @SerializedName("content_multilang")
   private MultilingualData contentMultiLang;
+  @SerializedName("attachment")
+  private SignallerImage attachment;
   private boolean isSent = true;
   private long timestamp;
 
@@ -155,6 +157,11 @@ public class SignallerChatMessage extends RealmObject {
   public MultilingualData getContentMultiLang() {
     return contentMultiLang;
   }
+
+  public SignallerImage getAttachment() {
+    return attachment;
+  }
+
   //endregion
 }
 

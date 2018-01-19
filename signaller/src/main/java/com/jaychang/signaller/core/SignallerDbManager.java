@@ -65,6 +65,10 @@ public class SignallerDbManager {
           if (!chatMsgSchema.hasField(contentMultiLangField)) {
             chatMsgSchema.addField(contentMultiLangField, MultilingualData.class);
           }
+          String attachmentField = "attachment";
+          if (!chatMsgSchema.hasField(attachmentField)) {
+            chatMsgSchema.addField(attachmentField, SignallerImage.class);
+          }
 
           oldVersion++;
         }
