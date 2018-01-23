@@ -354,7 +354,14 @@ public class ChatRoomActivity extends RxAppCompatActivity {
   }
 
   private void resetUnreadCount(String chatRoomId) {
-    SignallerDataManager.getInstance().resetUnreadCount(chatRoomId)
+    String id = chatRoomId;
+    // extract official id, e.g. 5159771980169216_sns:SYSTEM -> sns:SYSTEM
+    for (String acId : Signaller.getInstance().getAppConfig().getOfficialAccountIds()) {
+      if (id.contains(acId)) {
+        id = acId;
+      }
+    }
+    SignallerDataManager.getInstance().resetUnreadCount(id)
       .subscribe();
   }
 
