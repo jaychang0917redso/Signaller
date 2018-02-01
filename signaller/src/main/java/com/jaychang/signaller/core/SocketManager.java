@@ -256,7 +256,14 @@ public class SocketManager {
     PushNotification pushNotification = new PushNotification(message, chatRoomId, senderId, senderName, msgType, msgId);
 
     if (UserData.getInstance().isInChatRoomPage()) {
-      boolean isInSameChatRoom = UserData.getInstance().getCurrentChatRoomId().equals(chatRoomId);
+      String id = chatRoomId;
+      // extract official id, e.g. 5159771980169216_sns:SYSTEM -> sns:SYSTEM
+      for (String acId : Signaller.getInstance().getAppConfig().getOfficialAccountIds()) {
+        if (id.contains(acId)) {
+          id = acId;
+        }
+      }
+      boolean isInSameChatRoom = UserData.getInstance().getCurrentChatRoomId().equals(id);
       if (isInSameChatRoom) {
         EventBus.getDefault().postSticky(new SignallerEvents.OnMsgReceivedEvent(chatRoomId, msgId));
       } else {
