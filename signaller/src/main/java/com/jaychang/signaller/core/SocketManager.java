@@ -227,9 +227,9 @@ public class SocketManager {
       long timestamp = 0;
       try {
         SignallerPayload payload = GsonUtils.getGson().fromJson(socketChatMessage.getPayloadJson(), SignallerPayload.class);
-        timestamp = payload.getTimestamp();
+        timestamp = payload.getTimestamp() / 1000;
       } catch (Exception e) {
-        timestamp = Long.valueOf(socketChatMessage.getPayloadJson());
+        timestamp = Long.valueOf(socketChatMessage.getPayloadJson()) / 1000;
       }
 
       // remove temp msg
