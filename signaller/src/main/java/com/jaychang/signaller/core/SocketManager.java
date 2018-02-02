@@ -224,8 +224,14 @@ public class SocketManager {
   private void insertOrUpdateChatMsgInDb(SignallerSocketChatMessage socketChatMessage) {
     // update own just sent msg
     if (socketChatMessage.getPayloadJson() != null && socketChatMessage.getPayloadJson().length() > 0 && socketChatMessage.getMessage().isOwnMessage()) {
-      SignallerPayload payload = GsonUtils.getGson().fromJson(socketChatMessage.getPayloadJson(), SignallerPayload.class);
-      long timestamp = payload.getTimestamp();
+      long timestamp = 0;
+      try {
+        SignallerPayload payload = GsonUtils.getGson().fromJson(socketChatMessage.getPayloadJson(), SignallerPayload.class);
+        timestamp = payload.getTimestamp();
+      } catch (Exception e) {
+        timestamp = Long.valueOf(socketChatMessage.getPayloadJson());
+      }
+
       // remove temp msg
       SignallerDbManager.getInstance().removeTempChatMessage(timestamp);
       // save real msg with local timestamp
