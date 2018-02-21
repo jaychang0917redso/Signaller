@@ -217,7 +217,14 @@ public class SignallerDbManager {
   }
 
   public SignallerChatRoom getChatRoom(String chatRoomId) {
-    return getRealm().where(SignallerChatRoom.class).equalTo("chatRoomId", chatRoomId).findFirst();
+    final SignallerChatRoom[] room = {null};
+    getRealm().executeTransaction(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        room[0] = realm.where(SignallerChatRoom.class).equalTo("chatRoomId", chatRoomId).findFirst();
+      }
+    });
+    return room[0];
   }
 
   public SignallerReceiver getReceiver(String userId) {
