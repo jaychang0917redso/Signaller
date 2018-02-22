@@ -44,7 +44,6 @@ public class SocketManager {
 
   private SocketManager() {
     mainThreadHandler = new Handler(Looper.getMainLooper());
-    connectionEmitter = PublishSubject.create();
   }
 
   public static SocketManager getInstance() {
@@ -88,11 +87,12 @@ public class SocketManager {
   }
 
   private void registerConnectionCallbacks(SocketConnectionCallbacks callback) {
+    connectionEmitter = PublishSubject.create();
+
     if (callback == null) {
       return;
     }
 
-    connectionEmitter = PublishSubject.create();
     connectionEmitter.observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
       @Override
       public void call(String type) {
