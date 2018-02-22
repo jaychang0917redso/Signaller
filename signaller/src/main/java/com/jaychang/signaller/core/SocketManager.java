@@ -41,9 +41,11 @@ public class SocketManager {
   private Handler mainThreadHandler;
 
   private PublishSubject<String> connectionEmitter;
+  private SocketConnectionCallbacks socketConnectionCallbacks;
 
   private SocketManager() {
     mainThreadHandler = new Handler(Looper.getMainLooper());
+    connectionEmitter = PublishSubject.create();
   }
 
   public static SocketManager getInstance() {
@@ -87,23 +89,26 @@ public class SocketManager {
   }
 
   private void registerConnectionCallbacks(SocketConnectionCallbacks callback) {
-    connectionEmitter = PublishSubject.create();
+    socketConnectionCallbacks = callback;
 
-    if (callback == null) {
+    if (socketConnectionCallbacks == null) {
       return;
     }
 
     connectionEmitter.observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
       @Override
       public void call(String type) {
+        if (socketConnectionCallbacks == null) {
+          return;
+        }
         if (type.equals(CONNECT)) {
-          callback.onConnect();
+          socketConnectionCallbacks.onConnect();
         } else if (type.equals(CONNECTING)) {
-          callback.onConnecting();
+          socketConnectionCallbacks.onConnecting();
         } else if (type.equals(CONNECTED)) {
-          callback.onConnected();
+          socketConnectionCallbacks.onConnected();
         } else if (type.equals(DISCONNECTED)) {
-          callback.onDisconnected();
+          socketConnectionCallbacks.onDisconnected();
         }
       }
     });
@@ -115,6 +120,7 @@ public class SocketManager {
 
   public void disconnect() {
     if (isConnected()) {
+      socketConnectionCallbacks = null;
       offEvents();
       socket.disconnect();
       LogUtils.d("disconnect");
