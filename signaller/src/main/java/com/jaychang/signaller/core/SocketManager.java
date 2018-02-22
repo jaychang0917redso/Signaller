@@ -20,6 +20,7 @@ import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
@@ -92,7 +93,7 @@ public class SocketManager {
     }
 
     connectionEmitter = PublishSubject.create();
-    connectionEmitter.subscribe(new Action1<String>() {
+    connectionEmitter.observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
       @Override
       public void call(String type) {
         if (type.equals(CONNECT)) {
