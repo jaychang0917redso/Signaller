@@ -80,10 +80,9 @@ public class SocketManager {
     initSocketIfNeed();
 
     if (!isConnected()) {
+      registerConnectionCallbacks(callback);
       onEvents();
       socket.connect();
-      LogUtils.d("disconnect");
-      registerConnectionCallbacks(callback);
     }
   }
 
@@ -92,6 +91,7 @@ public class SocketManager {
       return;
     }
 
+    connectionEmitter = PublishSubject.create();
     connectionEmitter.subscribe(new Action1<String>() {
       @Override
       public void call(String type) {
