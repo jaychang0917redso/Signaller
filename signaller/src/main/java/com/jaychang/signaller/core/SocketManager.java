@@ -20,6 +20,7 @@ import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 public class SocketManager {
@@ -91,15 +92,18 @@ public class SocketManager {
       return;
     }
 
-    connectionEmitter.subscribe(type -> {
-      if (type.equals(CONNECT)) {
-        callback.onConnect();
-      } else if (type.equals(CONNECTING)) {
-        callback.onConnecting();
-      } else if (type.equals(CONNECTED)) {
-        callback.onConnected();
-      } else if (type.equals(DISCONNECTED)) {
-        callback.onDisconnected();
+    connectionEmitter.subscribe(new Action1<String>() {
+      @Override
+      public void call(String type) {
+        if (type.equals(CONNECT)) {
+          callback.onConnect();
+        } else if (type.equals(CONNECTING)) {
+          callback.onConnecting();
+        } else if (type.equals(CONNECTED)) {
+          callback.onConnected();
+        } else if (type.equals(DISCONNECTED)) {
+          callback.onDisconnected();
+        }
       }
     });
   }
