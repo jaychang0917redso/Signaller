@@ -5,9 +5,9 @@ import android.content.Context;
 
 import com.jaychang.signaller.core.push.SignallerGcmManager;
 import com.jaychang.signaller.ui.ChatRoomActivity;
+import com.jaychang.signaller.util.AppStatusUtils;
 import com.jaychang.signaller.util.LogUtils;
 import com.jaychang.signaller.util.StethoUtils;
-import com.jaychang.utils.AppStatusUtils;
 
 public final class Signaller {
 
