@@ -45,10 +45,8 @@ public class AppStatusUtils {
 
       @Override
       public void onActivityPaused(Activity activity) {
-        if (!(isScreenAwake(activity) && !isPhoneLocked(activity))) {
-          isInBackground = true;
-          callback.onAppEnterBackground();
-        }
+        isInBackground = true;
+        callback.onAppEnterBackground();
 
         state = "Pause";
       }
