@@ -30,7 +30,7 @@ public class SignallerDataManager {
   }
 
   public Observable<List<SignallerChatRoom>> getChatRooms() {
-    return Observable.concat(databaseManager.getChatRooms(), getChatRoomsFromNetwork(null));
+    return getChatRoomsFromNetwork(null);
   }
 
   public Observable<List<SignallerChatRoom>> getChatRoomsFromNetwork(String cursor) {
