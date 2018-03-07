@@ -12,10 +12,12 @@ import com.jaychang.nrv.OnLoadMorePageListener;
 import com.jaychang.signaller.R;
 import com.jaychang.signaller.R2;
 import com.jaychang.signaller.core.ChatRoomMeta;
+import com.jaychang.signaller.core.NetworkStateMonitor;
 import com.jaychang.signaller.core.Signaller;
 import com.jaychang.signaller.core.SignallerDataManager;
 import com.jaychang.signaller.core.SignallerDbManager;
 import com.jaychang.signaller.core.SignallerEvents;
+import com.jaychang.signaller.core.SocketManager;
 import com.jaychang.signaller.core.model.SignallerChatRoom;
 import com.jaychang.signaller.core.model.SignallerReceiver;
 import com.jaychang.signaller.ui.config.ChatRoomCellProvider;
@@ -47,6 +49,10 @@ public class ChatRoomListFragment extends RxFragment {
     void onChatRoomJoinEnded();
   }
 
+  public interface OnErrorListener {
+    void onError();
+  }
+
   @BindView(R2.id.recyclerView)
   NRecyclerView recyclerView;
 
@@ -55,6 +61,7 @@ public class ChatRoomListFragment extends RxFragment {
   private HashMap<String, SignallerChatRoom> chatRooms = new HashMap<>();
   private OnChatRoomListUpdateListener onChatRoomListUpdateListener;
   private OnChatRoomJoinListener onChatRoomJoinListener;
+  private OnErrorListener onErrorListener;
 
   public static ChatRoomListFragment newInstance() {
     return new ChatRoomListFragment();
@@ -110,6 +117,7 @@ public class ChatRoomListFragment extends RxFragment {
   public void init() {
     initUIConfig();
     initRecyclerView();
+    initNetworkStateMonitor();
     removePendingEvents();
   }
 
@@ -133,6 +141,20 @@ public class ChatRoomListFragment extends RxFragment {
         return OFF_SCREEN_CELLS_THRESHOLD;
       }
     });
+  }
+
+  private void initNetworkStateMonitor() {
+    NetworkStateMonitor.getInstance().monitor(getContext())
+      .filter( state -> {
+        boolean isSocketConnected = SocketManager.getInstance().isConnected();
+        boolean isNetworkConnected = NetworkStateMonitor.getInstance().isConnected(getContext());
+        return isSocketConnected || isNetworkConnected;
+      })
+      .subscribe(networkState -> {
+        if (onErrorListener != null) {
+          onErrorListener.onError();
+        }
+      });
   }
 
   private void removePendingEvents() {
@@ -162,6 +184,9 @@ public class ChatRoomListFragment extends RxFragment {
           bindChatRooms();
         },
         error -> {
+          if (onErrorListener != null) {
+            onErrorListener.onError();
+          }
           LogUtils.e("loadChatRoomsFromNetwork:" + error.getMessage());
         });
   }
@@ -253,4 +278,7 @@ public class ChatRoomListFragment extends RxFragment {
     this.onChatRoomJoinListener = onChatRoomJoinListener;
   }
 
+  public void setOnErrorListener(OnErrorListener onErrorListener) {
+    this.onErrorListener = onErrorListener;
+  }
 }
