@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.jaychang.signaller.core.AppConfig;
 import com.jaychang.signaller.core.Signaller;
+import com.jaychang.signaller.core.UIConfig;
 import com.jaychang.signaller.core.model.SignallerChatMessage;
 import com.jaychang.signaller.core.model.SignallerChatRoom;
 import com.jaychang.signaller.ui.config.ChatMessageCellProvider;
@@ -16,7 +17,6 @@ import com.jaychang.signaller.ui.config.ChatRoomControlViewProvider;
 import com.jaychang.signaller.ui.config.ChatRoomToolbarProvider;
 import com.jaychang.signaller.ui.config.CustomChatMessageCellProvider;
 import com.jaychang.signaller.ui.config.DateSeparatorViewProvider;
-import com.jaychang.signaller.core.UIConfig;
 import com.jaychang.signaller.ui.part.ChatMessageCell;
 import com.jaychang.signaller.ui.part.ChatRoomCell;
 import com.wiser.kol.ui.KolChatRoomCell;
@@ -27,6 +27,8 @@ import com.wiser.kol.ui.KolOtherImageMessageCell;
 import com.wiser.kol.ui.KolOtherTextMessageCell;
 import com.wiser.kol.ui.KolOwnImageMessageCell;
 import com.wiser.kol.ui.KolOwnTextMessageCell;
+
+import java.util.Arrays;
 
 public class App extends MultiDexApplication {
 
@@ -136,7 +138,7 @@ public class App extends MultiDexApplication {
       Constant.SOCKET_URL,
       Constant.PUSH_SENDER_ID,
       MainActivity.class,
-      "official ac id here");
+      Arrays.asList("official ac id here"));
 
     Signaller.init(this, appConfig, uiConfig);
 
