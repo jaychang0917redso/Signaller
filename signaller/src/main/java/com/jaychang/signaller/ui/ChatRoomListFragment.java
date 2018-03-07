@@ -148,7 +148,6 @@ public class ChatRoomListFragment extends RxFragment {
   private void initJoinRoomTimeoutTimer() {
     joinRoomTimeoutTimer = rx.Observable.timer(30, TimeUnit.SECONDS)
       .observeOn(AndroidSchedulers.mainThread())
-      .compose(bindToLifecycle())
       .subscribe(s -> {
         if (onErrorListener != null) {
           onErrorListener.onError();
