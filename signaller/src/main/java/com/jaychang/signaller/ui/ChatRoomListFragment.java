@@ -171,6 +171,9 @@ public class ChatRoomListFragment extends RxFragment {
           bindChatRooms();
         },
         error -> {
+          if (onErrorListener != null) {
+            onErrorListener.onError();
+          }
           LogUtils.e("loadChatRooms:" + error.getMessage());
         });
   }
