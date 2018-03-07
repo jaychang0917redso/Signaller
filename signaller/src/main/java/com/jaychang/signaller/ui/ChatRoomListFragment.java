@@ -12,12 +12,10 @@ import com.jaychang.nrv.OnLoadMorePageListener;
 import com.jaychang.signaller.R;
 import com.jaychang.signaller.R2;
 import com.jaychang.signaller.core.ChatRoomMeta;
-import com.jaychang.signaller.core.NetworkStateMonitor;
 import com.jaychang.signaller.core.Signaller;
 import com.jaychang.signaller.core.SignallerDataManager;
 import com.jaychang.signaller.core.SignallerDbManager;
 import com.jaychang.signaller.core.SignallerEvents;
-import com.jaychang.signaller.core.SocketManager;
 import com.jaychang.signaller.core.model.SignallerChatRoom;
 import com.jaychang.signaller.core.model.SignallerReceiver;
 import com.jaychang.signaller.ui.config.ChatRoomCellProvider;
@@ -34,11 +32,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class ChatRoomListFragment extends RxFragment {
+
+  private Subscription joinRoomTimeoutTimer;
 
   public interface OnChatRoomListUpdateListener {
     void onChatRoomListUpdated();
@@ -117,7 +120,6 @@ public class ChatRoomListFragment extends RxFragment {
   public void init() {
     initUIConfig();
     initRecyclerView();
-    initNetworkStateMonitor();
     removePendingEvents();
   }
 
@@ -143,14 +145,11 @@ public class ChatRoomListFragment extends RxFragment {
     });
   }
 
-  private void initNetworkStateMonitor() {
-    NetworkStateMonitor.getInstance().monitor(getContext())
-      .filter( state -> {
-        boolean isSocketConnected = SocketManager.getInstance().isConnected();
-        boolean isNetworkConnected = NetworkStateMonitor.getInstance().isConnected(getContext());
-        return isSocketConnected || isNetworkConnected;
-      })
-      .subscribe(networkState -> {
+  private void initJoinRoomTimeoutTimer() {
+    joinRoomTimeoutTimer = rx.Observable.timer(30, TimeUnit.SECONDS)
+      .observeOn(AndroidSchedulers.mainThread())
+      .compose(bindToLifecycle())
+      .subscribe(s -> {
         if (onErrorListener != null) {
           onErrorListener.onError();
         }
@@ -262,12 +261,16 @@ public class ChatRoomListFragment extends RxFragment {
   private void chatWith(SignallerReceiver receiver) {
     if (onChatRoomJoinListener != null) {
       onChatRoomJoinListener.onChatRoomJoinStarted();
+      initJoinRoomTimeoutTimer();
     }
     Signaller.getInstance().chatWith(getContext(), receiver.getUserId(), receiver.getName(), new Runnable() {
       @Override
       public void run() {
         if (onChatRoomJoinListener != null) {
           onChatRoomJoinListener.onChatRoomJoinEnded();
+          if (joinRoomTimeoutTimer.isUnsubscribed()) {
+            joinRoomTimeoutTimer.unsubscribe();
+          }
         }
       }
     });
