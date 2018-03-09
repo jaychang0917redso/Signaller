@@ -267,7 +267,7 @@ public class ChatRoomListFragment extends RxFragment {
       public void run() {
         if (onChatRoomJoinListener != null) {
           onChatRoomJoinListener.onChatRoomJoinEnded();
-          if (joinRoomTimeoutTimer.isUnsubscribed()) {
+          if (!joinRoomTimeoutTimer.isUnsubscribed()) {
             joinRoomTimeoutTimer.unsubscribe();
           }
         }
