@@ -16,12 +16,12 @@ import static com.jaychang.utils.AppUtils.getLauncherIntent;
 
 public class LangUtils {
 
-  private static final String KEY_CURRENT_LANG = LangUtils.class.getName() + "_CURRENT_LANG";
-  private static final String KEY_CURRENT_COUNTRY = LangUtils.class.getName() + "_KEY_CURRENT_COUNTRY";
+  private static final String KEY_CURRENT_LANG = "KEY_CURRENT_LANG";
+  private static final String KEY_CURRENT_COUNTRY = "KEY_CURRENT_COUNTRY";
 
   public static void changeLanguage(Context context, Locale locale) {
-    saveString(context, KEY_CURRENT_LANG, locale.getLanguage());
-    saveString(context, KEY_CURRENT_COUNTRY, locale.getCountry());
+    saveString(context, getKeyCurrentLang(context), locale.getLanguage());
+    saveString(context, getKeyCurrentCountry(context), locale.getCountry());
 
     wrap(context);
 
@@ -49,14 +49,22 @@ public class LangUtils {
 
   public static Locale getLocale(Context context) {
     Locale result;
-    String lang = getString(context, KEY_CURRENT_LANG);
-    String country = getString(context, KEY_CURRENT_COUNTRY);
+    String lang = getString(context, getKeyCurrentLang(context));
+    String country = getString(context, getKeyCurrentCountry(context));
     if (!TextUtils.isEmpty(lang)) {
       result = new Locale(lang, country);
     } else {
       result = new Locale(Locale.getDefault().getLanguage(), country);
     }
     return result;
+  }
+
+  private static String getKeyCurrentLang(Context context) {
+    return context.getPackageName() + KEY_CURRENT_LANG;
+  }
+
+  private static String getKeyCurrentCountry(Context context) {
+    return context.getPackageName() + KEY_CURRENT_COUNTRY;
   }
 
   @SuppressLint("ApplySharedPref")
