@@ -1,8 +1,6 @@
 package com.jaychang.signaller.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -16,7 +14,7 @@ import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class PhotoViewerActivity extends AppCompatActivity {
+public class PhotoViewerActivity extends BaseActivity {
 
   @BindView(R2.id.photoView)
   PhotoView photoView;

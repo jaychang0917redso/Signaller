@@ -46,7 +46,6 @@ import com.jaychang.utils.AppUtils;
 import com.jaychang.utils.ImageDimension;
 import com.jaychang.utils.ImageUtils;
 import com.jaychang.utils.SimpleTextChangedListener;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vanniktech.emoji.EmojiEditText;
 import com.vanniktech.emoji.EmojiPopup;
 
@@ -64,7 +63,7 @@ import butterknife.ButterKnife;
 import static com.jaychang.signaller.ui.config.ChatMessageType.IMAGE;
 import static com.jaychang.signaller.ui.config.ChatMessageType.TEXT;
 
-public class ChatRoomActivity extends RxAppCompatActivity {
+public class ChatRoomActivity extends BaseActivity {
 
   @BindView(R2.id.toolbarHolder)
   FrameLayout toolbarHolder;
