@@ -31,29 +31,30 @@ public class LangUtils {
   }
 
   public static Context wrap(Context context) {
+    Context ctx = context;
     Locale locale = getLocale(context);
     Locale.setDefault(locale);
 
-    Resources res = context.getResources();
+    Resources res = ctx.getResources();
     Configuration config = new Configuration(res.getConfiguration());
     if (Build.VERSION.SDK_INT >= 17) {
       config.setLocale(locale);
-      context = context.createConfigurationContext(config);
+      ctx = context.createConfigurationContext(config);
     } else {
       config.locale = locale;
       res.updateConfiguration(config, res.getDisplayMetrics());
     }
-    return context;
+    return ctx;
   }
 
-  private static Locale getLocale(Context context) {
+  public static Locale getLocale(Context context) {
     Locale result;
     String lang = getString(context, KEY_CURRENT_LANG);
     String country = getString(context, KEY_CURRENT_COUNTRY);
     if (!TextUtils.isEmpty(lang)) {
       result = new Locale(lang, country);
     } else {
-      result = Locale.getDefault();
+      result = new Locale(Locale.getDefault().getLanguage(), country);
     }
     return result;
   }
