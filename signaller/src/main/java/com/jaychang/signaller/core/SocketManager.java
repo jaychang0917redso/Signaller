@@ -2,6 +2,7 @@ package com.jaychang.signaller.core;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.jaychang.signaller.core.model.PushNotification;
 import com.jaychang.signaller.core.model.SignallerChatMessage;
@@ -79,6 +80,10 @@ public class SocketManager {
   }
 
   public void connect(SocketConnectionCallbacks callback) {
+    if (TextUtils.isEmpty(UserData.getInstance().getAccessToken())) {
+      return;
+    }
+
     initSocketIfNeed();
 
     if (!isConnected()) {
@@ -119,6 +124,10 @@ public class SocketManager {
   }
 
   public void disconnect() {
+    if (TextUtils.isEmpty(UserData.getInstance().getAccessToken())) {
+      return;
+    }
+
     if (isConnected()) {
       socketConnectionCallbacks = null;
       offEvents();
