@@ -54,7 +54,7 @@ public class LangUtils {
     if (!TextUtils.isEmpty(lang)) {
       result = new Locale(lang, country);
     } else {
-      result = new Locale(Locale.getDefault().getLanguage(), country);
+      result = Locale.TRADITIONAL_CHINESE;
     }
     return result;
   }
