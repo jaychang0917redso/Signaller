@@ -75,6 +75,6 @@ dependencies {
 
     compile 'com.github.jaychang0917:Utils:0.1.2'
     compile 'com.github.jaychang0917:nRecyclerView:2.1.16'
-    compile 'com.github.jaychang0917redso:PhotoPicker:160927fe54'
+    compile 'com.github.jaychang0917redso:PhotoPicker:ad6eead783'
 
 }
